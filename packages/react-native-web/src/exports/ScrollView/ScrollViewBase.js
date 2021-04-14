@@ -73,6 +73,8 @@ function shouldEmitScrollEvent(lastTick: number, eventThrottle: number) {
 const ScrollViewBase = forwardRef<Props, *>((props, forwardedRef) => {
   const {
     onScroll,
+    onScrollBeginDrag,
+    onScrollEndDrag,
     onTouchMove,
     onWheel,
     scrollEnabled = true,
@@ -130,12 +132,18 @@ const ScrollViewBase = forwardRef<Props, *>((props, forwardedRef) => {
     if (onScroll) {
       onScroll(normalizeScrollEvent(e));
     }
+    if (onScrollBeginDrag) {
+      onScrollBeginDrag(normalizeScrollEvent(e));
+    }
   }
 
   function handleScrollEnd(e: Object) {
     scrollState.current.isScrolling = false;
     if (onScroll) {
       onScroll(normalizeScrollEvent(e));
+    }
+    if (onScrollEndDrag) {
+      onScrollEndDrag(normalizeScrollEvent(e));
     }
   }
 
@@ -146,6 +154,8 @@ const ScrollViewBase = forwardRef<Props, *>((props, forwardedRef) => {
     <View
       {...rest}
       onScroll={handleScroll}
+      onScrollBeginDrag={handleScroll}
+      onScrollEndDrag={handleScroll}
       onTouchMove={createPreventableScrollHandler(onTouchMove)}
       onWheel={createPreventableScrollHandler(onWheel)}
       ref={useMergeRefs(scrollRef, forwardedRef)}
