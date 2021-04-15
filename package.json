@@ -1,6 +1,5 @@
 {
   "private": true,
-  "version": "0.15.7",
   "name": "monorepo",
   "scripts": {
     "clean": "del-cli ./packages/*/dist",
